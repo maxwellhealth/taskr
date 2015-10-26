@@ -1,5 +1,7 @@
 {
     "name": "maxwellhealth/taskr",
+    "description": "taskr is a small PHP library that makes it easy to fork callbacks into child processes.",
+    "license": "MIT",
     "authors": [
         {
             "name": "Frank Terragna",
