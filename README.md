@@ -6,7 +6,7 @@ taskr is a small PHP library that makes it easy to fork callbacks into child pro
 
 ### Quick Start
 
-Before running a task, we'll need to define a handler. The handler is what the task will use to things like writing a log or setting data about the task. In the example below, we've implemented HandlerInterface by extending HandlerAbstract with our own handler that will use a flat file for logging and MongoDB for task data.
+Before running a task, we'll need to define a handler. The handler is what the task will use to do things like writing a log or setting data about the task. In the example below, we've implemented HandlerInterface by extending HandlerAbstract with our own handler that will use a flat file for logging and MongoDB for task data.
 
 ```php
 <?php

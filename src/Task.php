@@ -90,15 +90,7 @@ class Task
     // @codeCoverageIgnoreStart
     private function kill()
     {
-        if (php_sapi_name() === 'cli') {
-            exit();
-        } else {
-            /**
-             * PHP-FPM seems to hang when exit() is called, so send SIGINT
-             * to the child process.
-             */
-            posix_kill(posix_getpid(), SIGINT);
-        }
+        posix_kill(posix_getpid(), SIGINT);
     }
 
     public function errorHandler($errno, $errstr, $errfile, $errline)

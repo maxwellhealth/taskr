@@ -12,6 +12,7 @@ class TaskTest extends PHPUnit_Framework_TestCase
         $handler = new TaskTestHandler();
 
         $task = new Task($handler, function (HandlerInterface $handler) {
+            sleep(1);
             $handler->writeLog('testRun');
             $handler->complete();
         });
@@ -20,8 +21,18 @@ class TaskTest extends PHPUnit_Framework_TestCase
 
         usleep(200 * 1000);
 
+        $pid = $handler->get('pid');
+        $cmd = sprintf('kill -0 %d 2>&1', $pid);
+        $this->assertSame(shell_exec($cmd), null);
+
+        sleep(1);
+
         $this->assertSame($handler->readLog(), "testRun\nTask finished\n");
         $this->assertSame($handler->getStatus(), 'complete');
+
+        pcntl_waitpid($pid, $status);
+
+        $this->assertTrue(strlen(shell_exec($cmd)) > 0);
 
         $handler->cleanup();
     }
