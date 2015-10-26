@@ -1,0 +1,20 @@
+{
+    "name": "maxwellhealth/taskr",
+    "authors": [
+        {
+            "name": "Frank Terragna",
+            "email": "frank@maxwellhealth.com"
+        },
+        {
+            "name": "Will Edgington",
+            "email": "will@maxwellhealth.com"
+        },
+        {
+            "name": "Chris Puchi",
+            "email": "chris@maxwellhealth.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Taskr\\": "src/" }
+    }
+}
