@@ -82,7 +82,7 @@ class TaskTest extends PHPUnit_Framework_TestCase
 
         usleep(200 * 1000);
 
-        $this->assertTrue(is_string(strstr($handler->readLog(), 'Error: (256) test on line 78 in file')));
+        $this->assertTrue(is_string(strstr($handler->readLog(), 'Error: (256) test on line')));
         $this->assertSame($handler->getStatus(), 'error');
 
         $handler->cleanup();
