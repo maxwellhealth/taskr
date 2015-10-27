@@ -54,8 +54,15 @@ class Task
          */
 
         if ($pid === 0) {
-            set_error_handler([$this, 'errorHandler']);
-            set_exception_handler([$this, 'exceptionHandler']);
+            register_shutdown_function(function () {
+                $error = error_get_last();
+
+                if ($error && ($error['type'] === 1 || $error['type'] === 256)) {
+                    $this->handler->error();
+                }
+
+                $this->kill();
+            });
 
             $this->handler->afterFork();
 
@@ -91,21 +98,6 @@ class Task
     private function kill()
     {
         posix_kill(posix_getpid(), SIGINT);
-    }
-
-    public function errorHandler($errno, $errstr, $errfile, $errline)
-    {
-        if ($errno === E_ERROR || $errno === E_USER_ERROR) {
-            throw new \Exception($errstr . ' on line ' . $errline . ' in file ' . $errfile);
-        }
-
-        return false;
-    }
-
-    public function exceptionHandler($exception)
-    {
-        $this->handler->error();
-        $this->kill();
     }
     // @codeCoverageIgnoreEnd
 }
