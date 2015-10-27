@@ -75,12 +75,7 @@ class TaskTest extends PHPUnit_Framework_TestCase
         $handler = new TaskTestHandler();
 
         $task = new Task($handler, function (HandlerInterface $handler) {
-            $displayErrors = (int) ini_get('display_errors');
-            ini_set('display_errors', 0);
-
-            trigger_error('test', E_USER_ERROR);
-
-            ini_set('display_errors', $displayErrors);
+            @trigger_error('test', E_USER_ERROR);
         });
 
         $task->run();
