@@ -67,6 +67,26 @@ class TaskTest extends PHPUnit_Framework_TestCase
         $handler->cleanup();
         $task->run();
     }
+
+    public function testError()
+    {
+        $handler = new TaskTestHandler();
+
+        restore_error_handler();
+
+        $task = new Task($handler, function (HandlerInterface $handler) {
+            trigger_error('test', E_USER_ERROR);
+        });
+
+        $task->run();
+
+        usleep(200 * 1000);
+
+        $this->assertSame($handler->readLog(), "Error: (256) test on line 78 in file /Users/frank/taskr/tests/TaskTest.php\n");
+        $this->assertSame($handler->getStatus(), 'error');
+
+        $handler->cleanup();
+    }
 }
 
 class TaskTestHandler extends HandlerAbstract
