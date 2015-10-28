@@ -29,7 +29,6 @@ class TaskTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame($handler->readLog(), "testRun\nTask finished\n");
         $this->assertSame($handler->getStatus(), 'complete');
-        $this->assertSame($handler->get('callableName'), null);
 
         pcntl_waitpid($pid, $status);
 
