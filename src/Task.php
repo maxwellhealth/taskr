@@ -72,6 +72,19 @@ class Task
              */
             $task = $this->task;
 
+            if (is_string($task)) {
+                $this->handler->set('callableName', $task);
+            } else if (is_array($task)) {
+                $class = $task[0];
+                $method = $task[1];
+
+                if (is_object($class)) {
+                    $class = get_class($class);
+                }
+
+                $this->handler->set('callableName', $class . '::' . $method);
+            }
+
             /**
              * Start capturing all output from the task.
              */
