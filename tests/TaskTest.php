@@ -29,10 +29,78 @@ class TaskTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame($handler->readLog(), "testRun\nTask finished\n");
         $this->assertSame($handler->getStatus(), 'complete');
+        $this->assertSame($handler->get('callableName'), null);
 
         pcntl_waitpid($pid, $status);
 
         $this->assertTrue(strlen(shell_exec($cmd)) > 0);
+
+        $handler->cleanup();
+    }
+
+    public function testCallableNameString()
+    {
+        $handler = new TaskTestHandler();
+
+        $task = new Task($handler, 'MyTask::taskStatic');
+
+        $task->run();
+
+        usleep(200 * 1000);
+
+        $pid = $handler->get('pid');
+
+        sleep(1);
+
+        $this->assertSame($handler->getStatus(), 'complete');
+        $this->assertSame($handler->get('callableName'), 'MyTask::taskStatic');
+
+        pcntl_waitpid($pid, $status);
+
+        $handler->cleanup();
+    }
+
+    public function testCallableNameArray()
+    {
+        $handler = new TaskTestHandler();
+
+        $task = new Task($handler, ['MyTask', 'taskStatic']);
+
+        $task->run();
+
+        usleep(200 * 1000);
+
+        $pid = $handler->get('pid');
+
+        sleep(1);
+
+        $this->assertSame($handler->getStatus(), 'complete');
+        $this->assertSame($handler->get('callableName'), 'MyTask::taskStatic');
+
+        pcntl_waitpid($pid, $status);
+
+        $handler->cleanup();
+    }
+
+    public function testCallableNameArrayObj()
+    {
+        $handler = new TaskTestHandler();
+
+        $myTask = new MyTask();
+        $task = new Task($handler, [$myTask, 'taskStatic']);
+
+        $task->run();
+
+        usleep(200 * 1000);
+
+        $pid = $handler->get('pid');
+
+        sleep(1);
+
+        $this->assertSame($handler->getStatus(), 'complete');
+        $this->assertSame($handler->get('callableName'), 'MyTask::taskStatic');
+
+        pcntl_waitpid($pid, $status);
 
         $handler->cleanup();
     }
@@ -200,5 +268,20 @@ class TaskTestHandler extends HandlerAbstract
         }
 
         $this->writeDataFile($data);
+    }
+}
+
+class MyTask
+{
+    public static function taskStatic(HandlerInterface $handler)
+    {
+        sleep(1);
+        $handler->complete();
+    }
+
+    public function task(HandlerInterface $handler)
+    {
+        sleep(1);
+        $handler->complete();
     }
 }
