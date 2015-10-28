@@ -61,7 +61,7 @@ abstract class HandlerAbstract implements HandlerInterface
 
     private function endTask()
     {
-        $timestampStart = $this->get('timeStart');
+        $timestampStart = $this->get('timestampStart');
         $timestampComplete = time();
         $duration = $timestampComplete - $timestampStart;
 
