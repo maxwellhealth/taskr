@@ -64,6 +64,8 @@ class Task
                         fastcgi_finish_request();
                     }
 
+                    pcntl_waitpid($pid, $status, WNOHANG);
+
                     $this->kill();
                 });
             }
