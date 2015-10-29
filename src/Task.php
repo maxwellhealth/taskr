@@ -43,17 +43,34 @@ class Task
         } // @codeCoverageIgnore
 
         // @codeCoverageIgnoreStart
+        //
         $pid = pcntl_fork();
 
         if ($pid === -1) {
             throw new \RuntimeException('Unable to fork process');
         }
 
-        /**
-         * If $pid is 0, we're inside the child.
-         */
+        if ($pid) {
+            /**
+             * Parent
+             */
+            if (php_sapi_name() !== 'cli') {
+                register_shutdown_function(function () {
+                    /**
+                     * If fastcgi_finish_request() exists, call it to flush
+                     * all data to the client and finish the request.
+                     */
+                    if (function_exists('fastcgi_finish_request')) {
+                        fastcgi_finish_request();
+                    }
 
-        if ($pid === 0) {
+                    $this->kill();
+                });
+            }
+        } else {
+            /**
+             * Child
+             */
             register_shutdown_function(function () {
                 $error = error_get_last();
 
@@ -111,7 +128,7 @@ class Task
     // @codeCoverageIgnoreStart
     private function kill()
     {
-        posix_kill(posix_getpid(), SIGINT);
+        posix_kill(posix_getpid(), SIGTERM);
     }
     // @codeCoverageIgnoreEnd
 }
