@@ -55,7 +55,7 @@ class Task
              * Parent
              */
             if (php_sapi_name() !== 'cli') {
-                register_shutdown_function(function () {
+                register_shutdown_function(function () use ($pid) {
                     /**
                      * If fastcgi_finish_request() exists, call it to flush
                      * all data to the client and finish the request.
