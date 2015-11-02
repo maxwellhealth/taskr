@@ -76,7 +76,7 @@ class Task
             register_shutdown_function(function () {
                 $error = error_get_last();
 
-                if ($error && ($error['type'] === 1 || $error['type'] === 256)) {
+                if ($error && ($error['type'] === 1 || $error['type'] === 256 || $error['type'] === 4096)) {
                     $this->handler->writeLog('Error: (' . $error['type'] . ') ' . $error['message'] . ' on line ' . $error['line'] . ' in file ' . $error['file']);
                     $this->handler->error();
                 }
