@@ -41,12 +41,13 @@ class Task
                 break;
             }
         } // @codeCoverageIgnore
-
+        //@TODO why are we ignoring code coverage here? 
         // @codeCoverageIgnoreStart
         //
         $pid = pcntl_fork();
 
         if ($pid === -1) {
+            // @TODO add more context to this exception. Perhaps the task name and some other arguments about that task
             throw new \RuntimeException('Unable to fork process');
         }
 
@@ -75,7 +76,7 @@ class Task
              */
             register_shutdown_function(function () {
                 $error = error_get_last();
-
+                // @TODO why are we only logging this set of exceptions? do we ever not have non 1/256/4096 error codes
                 if ($error && ($error['type'] === 1 || $error['type'] === 256 || $error['type'] === 4096)) {
                     $this->handler->writeLog('Error: (' . $error['type'] . ') ' . $error['message'] . ' on line ' . $error['line'] . ' in file ' . $error['file']);
                     $this->handler->error();
@@ -117,6 +118,7 @@ class Task
             /**
              * We don't care about the output.
              */
+            // @TODO we probably do care about the output. we should have a way to log it. 
             ob_end_clean();
 
             /**
