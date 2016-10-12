@@ -74,6 +74,13 @@ class Task
             /**
              * Child
              */
+            
+            $sid = posix_setsid();
+            
+            if ($sid < 0) {
+                exit();
+            }
+            
             register_shutdown_function(function () {
                 $error = error_get_last();
                 // @TODO why are we only logging this set of exceptions? do we ever not have non 1/256/4096 error codes
