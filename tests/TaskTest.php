@@ -36,6 +36,30 @@ class TaskTest extends PHPUnit_Framework_TestCase
 
         $handler->cleanup();
     }
+    public function testRunSeparateSid()
+    {
+        $handler = new TaskTestHandler();
+
+        $task = new Task($handler, function (HandlerInterface $handler) {
+            sleep(1);
+            $handler->writeLog('testRun');
+            $handler->complete();
+        });
+
+        $task->run();
+        $childSid = $task->getSID();
+        usleep(200 * 1000);
+        $pid = $handler->get('pid');
+        $sid = $handler->get('sid');
+
+        sleep(1);
+        $this->assertNotSame($childSid, $sid);
+
+        pcntl_waitpid($pid, $status);
+
+
+        $handler->cleanup();
+    }
 
     public function testCallableNameString()
     {

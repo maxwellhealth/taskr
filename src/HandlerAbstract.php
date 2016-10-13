@@ -27,7 +27,8 @@ abstract class HandlerAbstract implements HandlerInterface
             'status' => 'running',
             'percent' => 0,
             'host' => trim(shell_exec('hostname')),
-            'pid' => posix_getpid()
+            'pid' => posix_getpid(),
+            'sid' => posix_getsid(posix_getpid()),
         ]);
     }
 

@@ -25,7 +25,7 @@ class HandlerAbstractTest extends PHPUnit_Framework_TestCase
         $this->handler->afterFork();
         $taskData = $this->handler->get();
 
-        $this->assertSame(array_keys($taskData), ['timestampStart', 'status', 'percent', 'host', 'pid']);
+        $this->assertSame(array_keys($taskData), ['timestampStart', 'status', 'percent', 'host', 'pid', 'sid']);
 
         $this->assertSame($taskData['status'], 'running');
         $this->assertSame($taskData['percent'], 0);
