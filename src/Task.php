@@ -1,7 +1,7 @@
 <?php
 
 namespace Taskr;
-
+use Psr\Log\LogLevel;
 class Task
 {
     private $handler;
@@ -76,9 +76,9 @@ class Task
              */
             register_shutdown_function(function () {
                 $error = error_get_last();
-                // @TODO why are we only logging this set of exceptions? do we ever not have non 1/256/4096 error codes
+                // we're only logging errors here not warnings or notices
                 if ($error && ($error['type'] === 1 || $error['type'] === 256 || $error['type'] === 4096)) {
-                    $this->handler->writeLog('Error: (' . $error['type'] . ') ' . $error['message'] . ' on line ' . $error['line'] . ' in file ' . $error['file']);
+                    $this->handler->writeLog('Error: (' . $error['type'] . ') ' . $error['message'] . ' on line ' . $error['line'] . ' in file ' . $error['file'], LogLevel::ERROR);
                     $this->handler->error();
                 }
 

@@ -18,5 +18,8 @@
     ],
     "autoload": {
         "psr-4": { "Taskr\\": "src/" }
+    },
+    "require": {
+        "psr/log": "^1.0"
     }
 }
