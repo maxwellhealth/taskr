@@ -73,7 +73,7 @@ class TaskTest extends PHPUnit_Framework_TestCase
 
         $pid = $handler->get('pid');
 
-        sleep(1);
+        sleep(2);
 
         $this->assertSame($handler->getStatus(), 'complete');
         $this->assertSame($handler->get('callableName'), 'MyTask::taskStatic');
