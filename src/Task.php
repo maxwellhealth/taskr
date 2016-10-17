@@ -41,7 +41,6 @@ class Task
                 break;
             }
         } // @codeCoverageIgnore
-        //@TODO why are we ignoring code coverage here? 
         // @codeCoverageIgnoreStart
         //
         $pid = pcntl_fork();
@@ -79,6 +78,7 @@ class Task
             $sid = posix_setsid();
             
             if ($sid < 0) {
+                // if we're not able to detach from the parent then we should exit
                 exit();
             }
             $this->setSid($sid);
