@@ -93,7 +93,7 @@ class HandlerAbstractTestHandler extends HandlerAbstract
 {
     private $data = [];
 
-    public function writeLog($message)
+    public function writeLog($message, $level = '',array $context = [])
     {
     }
 

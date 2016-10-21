@@ -176,7 +176,7 @@ class TaskTestHandler extends HandlerAbstract
         unlink($this->logPath);
     }
 
-    public function writeLog($message)
+    public function writeLog($message, $level = '',array $context = [])
     {
         file_put_contents($this->logPath, $message . "\n", FILE_APPEND);
     }

@@ -18,7 +18,7 @@ interface HandlerInterface
     public function complete();
     public function error();
 
-    public function writeLog($message);
+    public function writeLog($message, $level = '', array $context= []);
     public function readLog($offset = 0);
 
     public function set($key, $value);
