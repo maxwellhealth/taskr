@@ -4,7 +4,7 @@ namespace Taskr;
 
 interface HandlerInterface
 {
-    public function setTaskId(TaskId $id);
+    public function setTaskId($id);
     public function getTaskId($toString = false);
 
     public function afterFork();

@@ -6,7 +6,7 @@ abstract class HandlerAbstract implements HandlerInterface
 {
     private $taskId;
 
-    public function setTaskId(TaskId $taskId)
+    public function setTaskId($taskId)
     {
         $this->taskId = $taskId;
     }
